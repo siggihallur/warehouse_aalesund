@@ -24,13 +24,13 @@ public class WarehouseOneApplication {
         SpringApplication.run(WarehouseOneApplication.class, args);
     }
 
+
     @Bean
     public WebMvcConfigurer corsConfigurer() {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/products").allowedOrigins("http://localhost:8090");
-                registry.addMapping("/products").allowedOrigins("http://localhost:8080");
+                registry.addMapping("/**").allowedOrigins("*");
             }
         };
     }

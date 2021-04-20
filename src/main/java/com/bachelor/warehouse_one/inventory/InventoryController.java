@@ -1,10 +1,14 @@
 package com.bachelor.warehouse_one.inventory;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:8080")
 @RestController
 public class InventoryController {
     @Autowired
@@ -17,8 +21,12 @@ public class InventoryController {
     }
 
 
-    //TODO get inventory by id
-
+    //localhost:8091/inventory_by_product_id?id=80
+    @RequestMapping("/inventory_by_product_id")
+    @CrossOrigin(origins = "http://localhost:8080")
+    public Inventory getInventoryById(@RequestParam("id") Long productId){
+        return inventoryService.getProductInventory(productId);
+    }
 
     /**
      * Decrease inventory by qty where product_id is
@@ -28,13 +36,19 @@ public class InventoryController {
     // http://localhost:8091/inventory/purchase?product_id=9&qty=1
     @RequestMapping("/inventory/purchase")
     @CrossOrigin(origins = "http://localhost:8080")
-    public void decreaseQuantity(@RequestParam("product_id") Long productId, @RequestParam("qty") int qty){
-        inventoryService.decreaseQuantity(productId, qty);
+    @Transactional
+    public boolean decreaseQuantity(@RequestParam("product_id") Long productId, @RequestParam("qty") int qty){
+        return inventoryService.decreaseQuantity(productId, qty);
     }
 
 
     //TODO addNewProductAndSetQuantity
+    @PostMapping("/inventory/add")
+    @CrossOrigin(origins = "http://localhost:8080")
+    public void addInventory(@RequestBody Inventory inventory) {
+        inventoryService.addInventory(inventory);
+    }
 
-    //TODO increase quantity
+    //TODO increase or quantity
 
 }
