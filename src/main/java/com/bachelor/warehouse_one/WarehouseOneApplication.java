@@ -35,6 +35,10 @@ public class WarehouseOneApplication {
         };
     }
 
+    /**
+     * Allows for http request on localhost
+     * @return
+     */
     @Bean
     public RestTemplate restTemplate(){
         var factory = new SimpleClientHttpRequestFactory();
@@ -43,6 +47,10 @@ public class WarehouseOneApplication {
         return new RestTemplate(factory);
     }
 
+    /**
+     * Gets all the product ids from warehouse server
+     * @return
+     */
     private static String[] getIds(){
         final String url = "http://localhost:8090/getProductIds";
         RestTemplate restTemplate = new RestTemplate();
@@ -63,8 +71,13 @@ public class WarehouseOneApplication {
         return listOfIds;
     }
 
+    /**
+     * Generates inventory list. Sets quantity for every id in the list
+     * @param inventoryRepository
+     * @return
+     */
     @Bean
-    CommandLineRunner clr(InventoryRepository ir){
+    CommandLineRunner clr(InventoryRepository inventoryRepository){
          return args -> {
              Faker faker = new Faker();
              String[] mylist = getIds();
@@ -85,7 +98,7 @@ public class WarehouseOneApplication {
                  inventoryList.add(new Inventory(productId,inStock,quantity));
              }
 
-             ir.saveAll(inventoryList);
+             inventoryRepository.saveAll(inventoryList);
 
          };
     }

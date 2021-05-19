@@ -1,27 +1,36 @@
 package com.bachelor.warehouse_one.inventory;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import javax.transaction.Transactional;
 import java.util.List;
 
+/**
+ * RESTful API for the store
+ */
 @CrossOrigin(origins = "http://localhost:8080")
 @RestController
 public class InventoryController {
     @Autowired
     private InventoryService inventoryService;
 
+    /**
+     * Returns inventory list for all items
+     * @return
+     */
     @RequestMapping("/inventory")
     @CrossOrigin(origins = "http://localhost:8080")
     public List<Inventory> getInventoryList(){
         return inventoryService.getInventoryList();
     }
 
-
-    //localhost:8091/inventory_by_product_id?id=80
+    /**
+     * Returns inventory status for product by id
+     * localhost:8091/inventory_by_product_id?id=80
+     * @param productId
+     * @return
+     */
     @RequestMapping("/inventory_by_product_id")
     @CrossOrigin(origins = "http://localhost:8080")
     public Inventory getInventoryById(@RequestParam("id") Long productId){

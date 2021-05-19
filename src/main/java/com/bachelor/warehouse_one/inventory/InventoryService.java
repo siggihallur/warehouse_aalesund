@@ -11,7 +11,7 @@ public class InventoryService {
     private InventoryRepository inventoryRepository;
 
     /**
-     *
+     * Gets list of all inventory from database
      * @return
      */
     public List<Inventory> getInventoryList() {
@@ -19,10 +19,10 @@ public class InventoryService {
     }
 
     /**
-     *
+     * Reduces quantity of product by its id and by given quantity.
      * @param productId
      * @param qty
-     * @return
+     * @return true if successfully reduces quantity
      */
     public boolean decreaseQuantity(Long productId, int qty) {
         boolean decreaseSuccessful = false;
@@ -37,10 +37,19 @@ public class InventoryService {
         return decreaseSuccessful;
     }
 
+    /**
+     * Gets inventory for product by id
+     * @param productId
+     * @return
+     */
     public Inventory getProductInventory(Long productId) {
         return inventoryRepository.findInventoryByProduct_id(productId);
     }
 
+    /**
+     * Adds inventory to database
+     * @param inventory
+     */
     public void addInventory(Inventory inventory) {
         inventoryRepository.save(inventory);
     }
